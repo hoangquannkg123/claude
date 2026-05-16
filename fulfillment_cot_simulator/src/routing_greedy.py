@@ -24,7 +24,8 @@ def check_truck_access(customer: pd.Series, truck: pd.Series) -> bool:
         return False
     if access == "cold_required" and truck["cold_capable"] != 1:
         return False
-    if access == "small_vehicle_only" and truck_type not in ["exception_van"]:
+    # small_vehicle_only: exception_van or cold_2T (small enough to access narrow lanes)
+    if access == "small_vehicle_only" and truck_type not in ["exception_van", "cold_2T"]:
         return False
     return True
 
@@ -358,10 +359,15 @@ def build_greedy_routes(
             for oid in still_cold["order_id"]:
                 unassigned_reasons[oid] = "no_cold_truck_available"
 
-        # Assign normal orders to non-cold trucks
+        # Assign normal orders to non-cold trucks first, then try cold trucks for stragglers
         non_cold_trucks = trucks[trucks["cold_capable"] == 0]
         if not normal_zone.empty and not non_cold_trucks.empty:
             assign_batch(normal_zone, non_cold_trucks)
+
+        # Retry unassigned normal orders with cold trucks (e.g. small_vehicle_only locations)
+        remaining_normal = normal_zone[~normal_zone["order_id"].isin(assigned_order_ids)]
+        if not remaining_normal.empty and not cold_trucks.empty:
+            assign_batch(remaining_normal, cold_trucks)
 
     # Mark unassigned eligible orders
     all_unassigned = eligible[~eligible["order_id"].isin(assigned_order_ids)]

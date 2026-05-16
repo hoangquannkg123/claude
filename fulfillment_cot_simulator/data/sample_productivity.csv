@@ -1,0 +1,5 @@
+process_step,worker_role,sec_per_unit,worker_count,efficiency,cost_per_hour
+pick,picker,30,10,0.85,45000
+pack,packer,20,6,0.85,45000
+load,loader,8,4,0.9,40000
+qc,qc,15,2,0.9,50000
