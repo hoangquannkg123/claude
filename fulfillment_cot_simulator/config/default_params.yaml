@@ -1,0 +1,40 @@
+# COT and time rules
+cot_time: "09:00"
+truck_restriction_morning_start: "06:00"
+truck_restriction_morning_end: "09:00"
+truck_restriction_evening_start: "16:00"
+truck_restriction_evening_end: "20:00"
+safety_buffer_min: 30
+operational_deadline: "15:30"
+customer_promise_deadline: "19:00"
+
+# Route start
+route_start_after: "09:00"
+
+# Warehouse productivity defaults (seconds per unit)
+base_prepare_sec: 1200        # 20 min
+pick_sec_per_sku: 30
+pack_sec_per_carton: 20
+load_sec_per_carton: 8
+cold_buffer_sec: 1200         # 20 min
+fresh_buffer_sec: 900         # 15 min
+
+# Labor cost (VND per hour)
+picker_cost_per_hour: 45000
+packer_cost_per_hour: 45000
+loader_cost_per_hour: 40000
+qc_cost_per_hour: 50000
+
+# SLA penalty (VND per late order)
+sla_penalty_per_late_order: 500000
+
+# Travel speed default (km/h) for approximation
+avg_speed_kmh: 25.0
+
+# Warehouse location (FC)
+fc_lat: 10.7769
+fc_lng: 106.7009
+fc_id: "FC_HCM"
+
+# Waiting cost multiplier
+waiting_cost_per_hour: 40000
